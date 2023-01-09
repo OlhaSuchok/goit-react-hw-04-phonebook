@@ -30,8 +30,6 @@ export default function ContactForm({ onHandleSubmit }) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(name, number);
-
     onHandleSubmit({ name, number });
     setName('');
     setNumber('');

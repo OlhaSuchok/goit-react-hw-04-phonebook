@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { Box } from 'components/Box/Box';
 import ContactForm from './ContactForm/ContactForm';
 import { ContactFormTitle } from './ContactFormTitle/ContactFormTitle';
 import { ContactList } from './ContactList/ContactList';
 import { ContactFilter } from './ContactFilter/ContactFilter';
+import useLocalStorage from './hooks/UseLocalStorage';
 
 const CONTACTS_LOCAL_STORAGE = 'contacts';
 
 export default function PhoneBoock() {
-  const [contacts, setContacts] = useState([
+  const [contacts, setContacts] = useLocalStorage(CONTACTS_LOCAL_STORAGE, [
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
@@ -48,19 +49,9 @@ export default function PhoneBoock() {
     return visivleContact;
   };
 
-  const componentDidMount = () => {
-    const contacts = localStorage.getItem(CONTACTS_LOCAL_STORAGE);
-    const jsonParseContacts = JSON.parse(contacts);
-    if (jsonParseContacts?.length) {
-      setContacts(jsonParseContacts);
-    }
-  };
-
-  const componentDidUpdate = (_, prevState) => {
-    if (contacts !== prevState.contacts) {
-      localStorage.setItem(CONTACTS_LOCAL_STORAGE, JSON.stringify(contacts));
-    }
-  };
+  useEffect(() => {
+    localStorage.setItem(CONTACTS_LOCAL_STORAGE, JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
     <div
