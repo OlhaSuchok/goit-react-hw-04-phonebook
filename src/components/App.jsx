@@ -49,10 +49,6 @@ export default function PhoneBoock() {
     return visivleContact;
   };
 
-  useEffect(() => {
-    localStorage.setItem(CONTACTS_LOCAL_STORAGE, JSON.stringify(contacts));
-  }, [contacts]);
-
   return (
     <div
       style={{
